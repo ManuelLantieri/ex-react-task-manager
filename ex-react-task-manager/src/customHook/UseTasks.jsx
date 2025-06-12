@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 const useTask = () => {
   const url = import.meta.env.VITE_BACKEND_URL;
 
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(() => {
+    return saved ? JSON.parse(saved) : [];
+  });
   const [update, setUpdate] = useState(true);
   const [mess, setMess] = useState(null);
 
@@ -18,6 +20,10 @@ const useTask = () => {
       console.error(err);
     }
   }, [update]);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const addTask = async (data) => {
     try {
@@ -50,7 +56,32 @@ const useTask = () => {
 
   const updateTask = () => {};
 
-  const deleteTask = () => {};
+  const deleteTask = async (id) => {
+    try {
+      const promiceDelete = await fetch(`${url}/tasks/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!promiceDelete.ok) {
+        throw new Error("Impossibile eliminare questa task");
+      }
+
+      setMess({
+        complite: true,
+        messaggio: "task eliminata con successo",
+        className: "alert-success",
+      });
+
+      setUpdate(!update);
+    } catch (err) {
+      console.err(err);
+      setMess({
+        complite: false,
+        messaggio: "impossibile eliminare questa task",
+        className: "alert-danger",
+      });
+    }
+  };
 
   return { tasks, addTask, updateTask, deleteTask, mess, setMess };
 };

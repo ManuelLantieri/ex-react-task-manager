@@ -7,12 +7,17 @@ function TaskCards({ task, index }) {
   if (task.status === "Done") color = "table-success";
 
   return (
-    <tr>
-      <th scope="row">{index + 1}</th>
-      <td>{task.title}</td>
-      <td>{task.createdAt}</td>
-      <td className={color}>{task.status}</td>
-    </tr>
+    <>
+      <tr>
+        <th scope="row">{index + 1}</th>
+        <td>
+          <Link to={`/task/${task.id}`}>{task.title}</Link>{" "}
+          {/* <== link dinamico */}
+        </td>
+        <td>{task.createdAt}</td>
+        <td className={color}>{task.status}</td>
+      </tr>
+    </>
   );
 }
 
