@@ -54,7 +54,35 @@ const useTask = () => {
     }
   };
 
-  const updateTask = () => {};
+  const updateTask = async (id, obj) => {
+    try {
+      const PUTpromice = await fetch(`${url}/tasks/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(obj),
+      });
+
+      if (!PUTpromice.ok) {
+        throw new Error("impossibile cambiare la task");
+      }
+      setMess({
+        complite: true,
+        messaggio: "task modificata con successo",
+        className: "alert-success",
+      });
+
+      setUpdate(!update);
+    } catch (err) {
+      console.error(err);
+      setMess({
+        complite: true,
+        messaggio: "task non modificata",
+        className: "alert-danger",
+      });
+    }
+  };
 
   const deleteTask = async (id) => {
     try {

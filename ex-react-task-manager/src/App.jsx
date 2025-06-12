@@ -10,7 +10,7 @@ import useTask from "./customHook/UseTasks.jsx";
 function App() {
   const url = import.meta.env.VITE_BACKEND_URL;
 
-  const { tasks, addTask, mess, setMess, deleteTask } = useTask();
+  const { tasks, addTask, mess, setMess, deleteTask, updateTask } = useTask();
 
   const GlobalContexProvider = {
     tasks,
@@ -18,6 +18,7 @@ function App() {
     mess,
     setMess,
     deleteTask,
+    updateTask,
   };
   return (
     <AppContext.Provider value={GlobalContexProvider}>
