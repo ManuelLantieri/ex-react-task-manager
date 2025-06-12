@@ -4,6 +4,7 @@ const useTask = () => {
   const url = import.meta.env.VITE_BACKEND_URL;
 
   const [tasks, setTasks] = useState(() => {
+    const saved = localStorage.getItem("tasks");
     return saved ? JSON.parse(saved) : [];
   });
   const [update, setUpdate] = useState(true);
